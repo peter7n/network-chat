@@ -1,10 +1,10 @@
 from socket import *
 serverName = 'localhost'
-serverPort = 33333
+serverPort = 31234 
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName, serverPort))
 sentence = raw_input('Input lowercase sentence: ')
-clientSocket.send(sentence.encode)
+clientSocket.send(sentence.encode())
 modifiedSentence = clientSocket.recv(1024)
-print('From Server: ', modifiedSentence.decode())
+print("From Server: ", modifiedSentence.decode())
 clientSocket.close()
