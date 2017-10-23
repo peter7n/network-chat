@@ -1,15 +1,24 @@
 from socket import *
-serverPort = 31234
+serverPort = 32082
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(('', serverPort))
-serverSocket.listen(1)
-print("Server is ready to receive")
 
 while True:
-  connectionSocket, addr = serverSocket.accept()
-  sentence = connectionSocket.recv(1024).decode()
-  print("From Client: {}".format(sentence.decode()))
+	serverSocket.listen(1)
+	print("Server is ready to receive")
 
-  serveSentence = raw_input('Input sentence: ')
-  connectionSocket.send(serveSentence.encode())
-  connectionSocket.close()
+	connectionSocket, address = serverSocket.accept()
+
+	while True:
+		clientMessage = connectionSocket.recv(1024).decode()
+		if clientMessage == "quit":
+			print("CONNECTION CLOSED BY CLIENT")
+			break
+		else:
+			print("From Client: {}".format(clientMessage.decode()))
+			serverMessage = raw_input('Input Message: ')
+			connectionSocket.send(serverMessage.encode())
+		if serverMessage == "quit":
+			break
+
+	connectionSocket.close()
